@@ -13,6 +13,11 @@ public class Bullet : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         Transform InitPosition = GetComponent<Transform>();
         rb.AddForce(InitPosition.up * speed, ForceMode2D.Impulse);
+        Destroy(gameObject, duration);
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Destroy(gameObject);
     }
 
     void FixedUpdate()
