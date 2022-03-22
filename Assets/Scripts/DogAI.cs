@@ -8,14 +8,15 @@ public class DogAI : MonoBehaviour
     private Rigidbody2D player;
     private float chasetime;
     public float speed;
-    // Start is called before the first frame update
+    public float health;
+    public GameObject deathParticles;
     void Start()
     {
         rb=GetComponent<Rigidbody2D>();
     }
 
     private void OnTriggerStay2D(Collider2D collision)
-    {
+   {
         if (collision.CompareTag("Player"))
         {
             player = collision.GetComponent<Rigidbody2D>();
@@ -24,7 +25,20 @@ public class DogAI : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
+    public void ApplyDamage(float damage)
+    {
+        health -= damage;
+        if(health <= 0)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        Instantiate(deathParticles, rb.transform.position, rb.transform.rotation);
+    }
+
     void Update()
     {
         chasetime -= 1f;
