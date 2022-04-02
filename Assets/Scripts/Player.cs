@@ -1,20 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class Player : MonoBehaviour
 {
+    //Camera
     private Camera cam;
-    public Rigidbody2D camRb;
+    private Rigidbody2D camRb;
 
+    //Moving
     private Rigidbody2D rb;
     public float moveSpeed;
 
+    //UI
+
+    //Input
     private Vector2 moveDirection;
     private Vector2 mousePosition;
 
+    //Shoting
     public GameObject bullet;
-
     public Transform rHand;
     public Transform lHand;
 
@@ -24,6 +28,11 @@ public class Player : MonoBehaviour
         cam = FindObjectOfType<Camera>();
         camRb = cam.GetComponent<Rigidbody2D>();
     }
+
+    void pickup(int id, float worth)
+    {
+
+    }    
     void shoot(Transform hand)
     {
         Instantiate(bullet,hand.position,hand.rotation);
@@ -35,7 +44,7 @@ public class Player : MonoBehaviour
         moveDirection = new Vector2(moveX, moveY).normalized;
 
         mousePosition = cam.ScreenToWorldPoint(Input.mousePosition);
-        camRb.position = rb.position;
+
 
         if(Input.GetMouseButtonDown(0))
         {
@@ -50,6 +59,7 @@ public class Player : MonoBehaviour
     {
         rb.velocity = new Vector2(moveDirection.x * moveSpeed, moveDirection.y * moveSpeed);
 
+        camRb.velocity += new Vector2(rb.position.x - camRb.position.x, rb.position.y - camRb.position.y) ;
         Vector2 lookDirection = mousePosition - rb.position;
         rb.rotation = Mathf.Atan2(lookDirection.y, lookDirection.x) *Mathf.Rad2Deg - 90f;
     }  
